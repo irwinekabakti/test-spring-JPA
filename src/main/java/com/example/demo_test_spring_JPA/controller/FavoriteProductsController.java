@@ -1,6 +1,8 @@
-package com.example.demo_test_spring_JPA.FavoriteProducts;
+package com.example.demo_test_spring_JPA.controller;
 
-import com.example.demo_test_spring_JPA.CustomResponse;
+import com.example.demo_test_spring_JPA.util.CustomResponse;
+import com.example.demo_test_spring_JPA.service.FavoriteProductsService;
+import com.example.demo_test_spring_JPA.model.FavoriteProducts;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

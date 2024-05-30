@@ -1,5 +1,7 @@
-package com.example.demo_test_spring_JPA.Metadata;
+package com.example.demo_test_spring_JPA.controller;
 
+import com.example.demo_test_spring_JPA.service.MetadataService;
+import com.example.demo_test_spring_JPA.model.Metadata;
 import org.springframework.stereotype.Controller;
 
 @Controller

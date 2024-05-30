@@ -1,5 +1,7 @@
-package com.example.demo_test_spring_JPA.User;
+package com.example.demo_test_spring_JPA.controller;
 
+import com.example.demo_test_spring_JPA.service.UserService;
+import com.example.demo_test_spring_JPA.model.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

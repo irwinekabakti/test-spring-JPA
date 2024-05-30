@@ -2,8 +2,8 @@
 package com.example.demo_test_spring_JPA.FavoriteProducts;
 
 import java.util.Optional;
-import com.example.demo_test_spring_JPA.Products.ProductsRepository;
-import com.example.demo_test_spring_JPA.User.UserRepository;
+import com.example.demo_test_spring_JPA.repository.ProductsRepository;
+import com.example.demo_test_spring_JPA.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,10 +49,12 @@ public class FavoriteProductsService {
 }
 */
 
-package com.example.demo_test_spring_JPA.FavoriteProducts;
+package com.example.demo_test_spring_JPA.service;
 
-import com.example.demo_test_spring_JPA.Products.ProductsRepository;
-import com.example.demo_test_spring_JPA.User.UserRepository;
+import com.example.demo_test_spring_JPA.repository.ProductsRepository;
+import com.example.demo_test_spring_JPA.repository.UserRepository;
+import com.example.demo_test_spring_JPA.model.FavoriteProducts;
+import com.example.demo_test_spring_JPA.repository.FavoriteProductsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
