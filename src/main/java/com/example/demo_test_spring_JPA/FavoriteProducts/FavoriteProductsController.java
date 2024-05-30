@@ -13,7 +13,7 @@ import java.util.Optional;
 @Validated
 @RequestMapping("/api/v1/favorites")
 public class FavoriteProductsController {
-    FavoriteProductsService favoriteService;
+    private final FavoriteProductsService favoriteService;
 
     public FavoriteProductsController(FavoriteProductsService favoriteService) {
         this.favoriteService = favoriteService;
@@ -25,12 +25,15 @@ public class FavoriteProductsController {
         if (favoritesOpt.isPresent()) {
             Iterable<FavoriteProducts> favorites = favoritesOpt.get();
             if (favorites.iterator().hasNext()) {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.ACCEPTED, "OK", "Get User Favorite Products", favorites), HttpStatus.OK);
+                CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.success(favorites, "User favorite products retrieved successfully.");
+                return response.toResponseEntity();
             } else {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.NOT_FOUND, "NOT_FOUND", "User doesn't have favorites", null), HttpStatus.NOT_FOUND);
+                CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User doesn't have favorite products.");
+                return response.toResponseEntity();
             }
         } else {
-            return new ResponseEntity<>(new CustomResponse<>(HttpStatus.NOT_FOUND, "NOT_FOUND", "User not found", null), HttpStatus.NOT_FOUND);
+            CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User not found.");
+            return response.toResponseEntity();
         }
     }
 
@@ -39,19 +42,20 @@ public class FavoriteProductsController {
         Optional<FavoriteProducts> favoriteOpt = favoriteService.changeFavorite(favorite);
         if (favoriteOpt.isPresent()) {
             FavoriteProducts result = favoriteOpt.get();
-            if (favorite.getId() == null) {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.ACCEPTED, "OK", "Added to Favorite", result), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.ACCEPTED, "OK", "Removed from Favorite", result), HttpStatus.OK);
-            }
+            String message = !(favorite.getId() == null) ? "Added to favorite products." : "Removed from favorite products.";
+            CustomResponse<FavoriteProducts> response = CustomResponse.success(result, message);
+            return response.toResponseEntity();
         } else {
             if (!favoriteService.checkProduct(favorite.getProductId())) {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.NOT_FOUND, "NOT_FOUND", "Product not found", null), HttpStatus.NOT_FOUND);
+                CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Product not found.");
+                return response.toResponseEntity();
             }
             if (!favoriteService.checkUser(favorite.getUserId())) {
-                return new ResponseEntity<>(new CustomResponse<>(HttpStatus.NOT_FOUND, "NOT_FOUND", "User not found", null), HttpStatus.NOT_FOUND);
+                CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User not found.");
+                return response.toResponseEntity();
             }
-            return new ResponseEntity<>(new CustomResponse<>(HttpStatus.BAD_REQUEST, "BAD_REQUEST", "Invalid request", null), HttpStatus.BAD_REQUEST);
+            CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.BAD_REQUEST, "Invalid request.");
+            return response.toResponseEntity();
         }
     }
 }

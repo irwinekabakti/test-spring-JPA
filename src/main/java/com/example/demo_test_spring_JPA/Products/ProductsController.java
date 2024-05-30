@@ -3,50 +3,55 @@ import com.example.demo_test_spring_JPA.CustomResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo_test_spring_JPA.CustomResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductsController {
-    ProductsService productsService;
+    private final ProductsService productsService;
 
-    public ProductsController (ProductsService productService){
-        this.productsService = productService;
+    public ProductsController(ProductsService productsService) {
+        this.productsService = productsService;
     }
 
     @GetMapping
-    public CustomResponse<Iterable<Products>> getProducts() {
+    public ResponseEntity<CustomResponse<Iterable<Products>>> getProducts() {
         Iterable<Products> products = productsService.getProducts();
-        return new CustomResponse<>(HttpStatus.OK,"Success", "Mantap Bang !", products);
+        CustomResponse<Iterable<Products>> response = CustomResponse.success(products, "Products retrieved successfully!");
+        return response.toResponseEntity();
     }
 
     @PostMapping
-    public CustomResponse<Products> addProduct(@RequestBody Products product) {
+    public ResponseEntity<CustomResponse<Products>> addProduct(@RequestBody Products product) {
         Products newProduct = productsService.addProduct(product);
-        return new CustomResponse<>(HttpStatus.OK, "Product added successfully", "Mantap Bang !", newProduct);
+        CustomResponse<Products> response = CustomResponse.success(newProduct, "Product added successfully!");
+        return response.toResponseEntity();
     }
 
-//    @DeleteMapping("/clear")
-//    public CustomResponse<String> clearProducts() {
-//        String result = productsService.clearProduct();
-//        return new CustomResponse<>(result, 200, null);
-//    }
-
     @DeleteMapping("/{id}")
-    public CustomResponse<Products> deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity<CustomResponse<Products>> deleteProduct(@PathVariable Integer id) {
         Products deletedProduct = productsService.deleteProduct(id);
         if (deletedProduct != null) {
-            return new CustomResponse<>(HttpStatus.OK, "Product deleted successfully", "Mantap Bang !", deletedProduct);
+            CustomResponse<Products> response = CustomResponse.success(deletedProduct, "Product deleted successfully!");
+            return response.toResponseEntity();
         } else {
-            return new CustomResponse<>(HttpStatus.NOT_FOUND, "Product not found", "Mantap Bang !", null);
+            CustomResponse<Products> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Product not found");
+            return response.toResponseEntity();
         }
     }
 
     @PutMapping("/{id}")
-    public CustomResponse<Products> updateProduct(@PathVariable Integer id, @RequestBody Products product) {
+    public ResponseEntity<CustomResponse<Products>> updateProduct(@PathVariable Integer id, @RequestBody Products product) {
         Products updatedProduct = productsService.updateProduct(id, product);
         if (updatedProduct != null) {
-            return new CustomResponse<>(HttpStatus.OK, "Product updated successfully", "Mantap Bang !", updatedProduct);
+            CustomResponse<Products> response = CustomResponse.success(updatedProduct, "Product updated successfully!");
+            return response.toResponseEntity();
         } else {
-            return new CustomResponse<>(HttpStatus.NOT_FOUND,"Product not found", "Mantap Bang !", null);
+            CustomResponse<Products> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Product not found");
+            return response.toResponseEntity();
         }
     }
 }

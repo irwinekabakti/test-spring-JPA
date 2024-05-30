@@ -26,28 +26,28 @@ public class MetadataService {
         if (metadataToUpdate.isEmpty()) {
             return null;
         }
-        Metadata updatedMetada = metadataToUpdate.get();
-        if (updatedMetada.getIncrement() != null) {
-            updatedMetada.setIncrement(metadata.getIncrement());
+        Metadata updatedMetadata = metadataToUpdate.get();
+        if (updatedMetadata.getIncrement() != null) {
+            updatedMetadata.setIncrement(metadata.getIncrement());
         }
-        if (updatedMetada.getUnit() != null && updatedMetada.getUnit() != "") {
-            updatedMetada.setUnit(metadata.getUnit());
+        if (updatedMetadata.getUnit() != null && updatedMetadata.getUnit() != "") {
+            updatedMetadata.setUnit(metadata.getUnit());
         }
-        if (updatedMetada.getWeight() != null) {
-            updatedMetada.setWeight(metadata.getWeight());
+        if (updatedMetadata.getWeight() != null) {
+            updatedMetadata.setWeight(metadata.getWeight());
         }
-        if (updatedMetada.getCalorie() != null) {
-            updatedMetada.setCalorie(metadata.getCalorie());
+        if (updatedMetadata.getCalorie() != null) {
+            updatedMetadata.setCalorie(metadata.getCalorie());
         }
-        if (updatedMetada.getProteins() != null) {
-            updatedMetada.setProteins(metadata.getProteins());
+        if (updatedMetadata.getProteins() != null) {
+            updatedMetadata.setProteins(metadata.getProteins());
         }
-        if (updatedMetada.getFats() != null) {
-            updatedMetada.setFats(metadata.getFats());
+        if (updatedMetadata.getFats() != null) {
+            updatedMetadata.setFats(metadata.getFats());
         }
-        if (updatedMetada.getCarbs() != null) {
-            updatedMetada.setCarbs(metadata.getCarbs());
+        if (updatedMetadata.getCarbs() != null) {
+            updatedMetadata.setCarbs(metadata.getCarbs());
         }
-        return metadataRepository.save(updatedMetada);
+        return metadataRepository.save(updatedMetadata);
     }
 }

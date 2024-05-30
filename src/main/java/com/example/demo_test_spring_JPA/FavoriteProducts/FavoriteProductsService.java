@@ -1,3 +1,4 @@
+/*
 package com.example.demo_test_spring_JPA.FavoriteProducts;
 
 import java.util.Optional;
@@ -44,5 +45,52 @@ public class FavoriteProductsService {
 
     boolean checkProduct(Integer productId) {
         return productsRepository.findById(productId).isPresent();
+    }
+}
+*/
+
+package com.example.demo_test_spring_JPA.FavoriteProducts;
+
+import com.example.demo_test_spring_JPA.Products.ProductsRepository;
+import com.example.demo_test_spring_JPA.User.UserRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class FavoriteProductsService {
+    private final FavoriteProductsRepository favoriteProductsRepository;
+    private final ProductsRepository productsRepository; // Assuming there is a ProductRepository
+    private final UserRepository userRepository; // Assuming there is a UserRepository
+
+    public FavoriteProductsService(FavoriteProductsRepository favoriteProductsRepository, ProductsRepository productsRepository, UserRepository userRepository) {
+        this.favoriteProductsRepository = favoriteProductsRepository;
+        this.productsRepository = productsRepository;
+        this.userRepository = userRepository;
+    }
+
+    public Optional<Iterable<FavoriteProducts>> getUserFavorite(Integer userId) {
+        return Optional.of(favoriteProductsRepository.findByUserId(userId));
+    }
+
+    public Optional<FavoriteProducts> changeFavorite(FavoriteProducts favorite) {
+        if (!checkProduct(favorite.getProductId()) || !checkUser(favorite.getUserId())) {
+            return Optional.empty();
+        }
+        Optional<FavoriteProducts> checkFavorite = favoriteProductsRepository.findByUserIdAndProductId(favorite.getUserId(), favorite.getProductId());
+        if (checkFavorite.isEmpty()) {
+            return Optional.of(favoriteProductsRepository.save(favorite));
+        }
+        FavoriteProducts favoriteToRemove = checkFavorite.get();
+        favoriteProductsRepository.deleteById(favoriteToRemove.getId());
+        return Optional.of(favoriteToRemove);
+    }
+
+    public boolean checkProduct(Integer productId) {
+        return productsRepository.existsById(productId);
+    }
+
+    public boolean checkUser(Integer userId) {
+        return userRepository.existsById(userId);
     }
 }
