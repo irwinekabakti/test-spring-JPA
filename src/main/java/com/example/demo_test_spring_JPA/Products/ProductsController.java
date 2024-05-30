@@ -2,51 +2,57 @@ package com.example.demo_test_spring_JPA.Products;
 import com.example.demo_test_spring_JPA.CustomResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductsController {
-    ProductsService productsService;
+    private final ProductsService productsService;
 
-    public ProductsController (ProductsService productService){
-        this.productsService = productService;
+    public ProductsController(ProductsService productsService) {
+        this.productsService = productsService;
     }
 
     @GetMapping
-    public CustomResponse<Iterable<Products>> getProducts() {
+    public ResponseEntity<CustomResponse<Iterable<Products>>> getProducts() {
         Iterable<Products> products = productsService.getProducts();
-        return new CustomResponse<>(HttpStatus.OK,"Success", "Mantap Bang !", products);
+        CustomResponse<Iterable<Products>> response = new CustomResponse<>(HttpStatus.OK, "Success", "Products retrieved successfully!", products);
+        return response.toResponseEntity();
     }
 
     @PostMapping
-    public CustomResponse<Products> addProduct(@RequestBody Products product) {
+    public ResponseEntity<CustomResponse<Products>> addProduct(@RequestBody Products product) {
         Products newProduct = productsService.addProduct(product);
-        return new CustomResponse<>(HttpStatus.OK, "Product added successfully", "Mantap Bang !", newProduct);
+        if (newProduct != null) {
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.OK, "Success", "Product added successfully!",  newProduct);
+            return response.toResponseEntity();
+        } else {
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.INTERNAL_SERVER_ERROR,"Failed to add product");
+            return response.toResponseEntity();
+        }
     }
 
-//    @DeleteMapping("/clear")
-//    public CustomResponse<String> clearProducts() {
-//        String result = productsService.clearProduct();
-//        return new CustomResponse<>(result, 200, null);
-//    }
-
     @DeleteMapping("/{id}")
-    public CustomResponse<Products> deleteProduct(@PathVariable Integer id) {
+    public ResponseEntity<CustomResponse<Products>> deleteProduct(@PathVariable Integer id) {
         Products deletedProduct = productsService.deleteProduct(id);
         if (deletedProduct != null) {
-            return new CustomResponse<>(HttpStatus.OK, "Product deleted successfully", "Mantap Bang !", deletedProduct);
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.OK, "Success", "Product deleted successfully!", deletedProduct);
+            return response.toResponseEntity();
         } else {
-            return new CustomResponse<>(HttpStatus.NOT_FOUND, "Product not found", "Mantap Bang !", null);
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "Product not found");
+            return response.toResponseEntity();
         }
     }
 
     @PutMapping("/{id}")
-    public CustomResponse<Products> updateProduct(@PathVariable Integer id, @RequestBody Products product) {
+    public ResponseEntity<CustomResponse<Products>> updateProduct(@PathVariable Integer id, @RequestBody Products product) {
         Products updatedProduct = productsService.updateProduct(id, product);
         if (updatedProduct != null) {
-            return new CustomResponse<>(HttpStatus.OK, "Product updated successfully", "Mantap Bang !", updatedProduct);
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.OK, "Success","Product updated successfully!", updatedProduct);
+            return response.toResponseEntity();
         } else {
-            return new CustomResponse<>(HttpStatus.NOT_FOUND,"Product not found", "Mantap Bang !", null);
+            CustomResponse<Products> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "Product not found");
+            return response.toResponseEntity();
         }
     }
 }
