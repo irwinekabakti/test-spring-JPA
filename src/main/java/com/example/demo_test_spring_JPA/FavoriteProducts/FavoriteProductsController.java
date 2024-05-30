@@ -1,38 +1,3 @@
-/*
-package com.example.demo_test_spring_JPA.FavoriteProducts;
-
-import com.example.demo_test_spring_JPA.CustomResponse;
-import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-
-
-@RestController
-@Validated
-@RequestMapping("/api/v1/favorites")
-public class FavoriteProductsController {
-    FavoriteProductsService favoriteService;
-
-    public FavoriteProductsController (FavoriteProductsService favoriteService){
-        this.favoriteService = favoriteService;
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomResponse<Iterable<FavoriteProducts>>> getUserFavorite(@PathVariable Integer id){
-        CustomResponse<Iterable<FavoriteProducts>> response = favoriteService.getUserFavorite(id);
-        return response.toResponseEntity();
-    }
-
-    @PostMapping("/toggle")
-    public ResponseEntity<CustomResponse<FavoriteProducts>> setFavorite(@Valid @RequestBody FavoriteProducts favorite ){
-        CustomResponse<FavoriteProducts> response = favoriteService.changeFavorite(favorite);
-        return response.toResponseEntity();
-    }
-
-}
- */
-
 package com.example.demo_test_spring_JPA.FavoriteProducts;
 
 import com.example.demo_test_spring_JPA.CustomResponse;
