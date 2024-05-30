@@ -1,5 +1,5 @@
 package com.example.demo_test_spring_JPA.Cart;
-
+import com.example.demo_test_spring_JPA.CustomResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,27 +12,40 @@ public class CartController {
     }
 
     @GetMapping
-    public Iterable<Cart> getCart() {
-        return cartService.getCart();
+    public CustomResponse<Iterable<Cart>> getCart() {
+        Iterable<Cart> cart = cartService.getCart();
+        return new CustomResponse<>("Success", 200, cart);
     }
 
     @PostMapping
-    public Cart addItemToCart(@RequestBody Cart cart) {
-        return cartService.addCart(cart);
+    public CustomResponse<Cart> addItemToCart(@RequestBody Cart cart) {
+        Cart newCart = cartService.addCart(cart);
+        return new CustomResponse<>("Item added to cart", 201, newCart);
     }
 
     @DeleteMapping("/clear")
-    public String clearCart() {
-        return cartService.clearCart();
+    public CustomResponse<String> clearCart() {
+        String result = cartService.clearCart();
+        return new CustomResponse<>(result, 200, null);
     }
 
     @DeleteMapping("/{id}")
-    public Cart removeItem(@PathVariable Integer id) {
-        return cartService.deleteCart(id);
+    public CustomResponse<Cart> removeItem(@PathVariable Integer id) {
+        Cart deletedCart = cartService.deleteCart(id);
+        if (deletedCart != null) {
+            return new CustomResponse<>("Item removed from cart", 200, deletedCart);
+        } else {
+            return new CustomResponse<>("Item not found", 404, null);
+        }
     }
 
     @PutMapping("/{id}")
-    public Cart putMethodName(@PathVariable Integer id, @RequestBody Cart cart) {
-        return cartService.updateCart(id, cart);
+    public CustomResponse<Cart> updateCart(@PathVariable Integer id, @RequestBody Cart cart) {
+        Cart updatedCart = cartService.updateCart(id, cart);
+        if (updatedCart != null) {
+            return new CustomResponse<>("Cart updated", 200, updatedCart);
+        } else {
+            return new CustomResponse<>("Item not found", 404, null);
+        }
     }
 }

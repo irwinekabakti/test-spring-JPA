@@ -1,4 +1,5 @@
 package com.example.demo_test_spring_JPA.Products;
+import com.example.demo_test_spring_JPA.CustomResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,27 +12,40 @@ public class ProductsController {
     }
 
     @GetMapping
-    public Iterable<Products> getProduct() {
-        return productsService.getProducts();
+    public CustomResponse<Iterable<Products>> getProducts() {
+        Iterable<Products> products = productsService.getProducts();
+        return new CustomResponse<>("Success", 200, products);
     }
 
     @PostMapping
-    public Products addProduct(@RequestBody Products product) {
-        return productsService.addProduct(product);
+    public CustomResponse<Products> addProduct(@RequestBody Products product) {
+        Products newProduct = productsService.addProduct(product);
+        return new CustomResponse<>("Product added successfully", 201, newProduct);
     }
 
     @DeleteMapping("/clear")
-    public String clearProduct() {
-        return productsService.clearProduct();
+    public CustomResponse<String> clearProducts() {
+        String result = productsService.clearProduct();
+        return new CustomResponse<>(result, 200, null);
     }
 
     @DeleteMapping("/{id}")
-    public Products deleteProduct(@PathVariable Integer id) {
-        return productsService.deleteProduct(id);
+    public CustomResponse<Products> deleteProduct(@PathVariable Integer id) {
+        Products deletedProduct = productsService.deleteProduct(id);
+        if (deletedProduct != null) {
+            return new CustomResponse<>("Product deleted successfully", 200, deletedProduct);
+        } else {
+            return new CustomResponse<>("Product not found", 404, null);
+        }
     }
 
     @PutMapping("/{id}")
-    public Products updateProduct(@PathVariable Integer id, @RequestBody Products product) {
-        return productsService.updateProduct(id, product);
+    public CustomResponse<Products> updateProduct(@PathVariable Integer id, @RequestBody Products product) {
+        Products updatedProduct = productsService.updateProduct(id, product);
+        if (updatedProduct != null) {
+            return new CustomResponse<>("Product updated successfully", 200, updatedProduct);
+        } else {
+            return new CustomResponse<>("Product not found", 404, null);
+        }
     }
 }
