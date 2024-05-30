@@ -1,4 +1,6 @@
-package com.example.demo_test_spring_JPA.Products;
+package com.example.demo_test_spring_JPA.service;
+import com.example.demo_test_spring_JPA.model.Products;
+import com.example.demo_test_spring_JPA.repository.ProductsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

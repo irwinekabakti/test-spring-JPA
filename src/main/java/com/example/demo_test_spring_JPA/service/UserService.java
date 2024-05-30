@@ -1,5 +1,7 @@
-package com.example.demo_test_spring_JPA.User;
+package com.example.demo_test_spring_JPA.service;
 
+import com.example.demo_test_spring_JPA.model.User;
+import com.example.demo_test_spring_JPA.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
-package com.example.demo_test_spring_JPA.Products;
-import com.example.demo_test_spring_JPA.CustomResponse;
+package com.example.demo_test_spring_JPA.controller;
+import com.example.demo_test_spring_JPA.util.CustomResponse;
+import com.example.demo_test_spring_JPA.service.ProductsService;
+import com.example.demo_test_spring_JPA.model.Products;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;

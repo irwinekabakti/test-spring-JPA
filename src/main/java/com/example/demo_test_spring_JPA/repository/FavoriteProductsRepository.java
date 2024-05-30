@@ -13,8 +13,9 @@ public interface FavoriteProductsRepository extends CrudRepository<FavoriteProdu
 }
 */
 
-package com.example.demo_test_spring_JPA.FavoriteProducts;
+package com.example.demo_test_spring_JPA.repository;
 
+import com.example.demo_test_spring_JPA.model.FavoriteProducts;
 import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 

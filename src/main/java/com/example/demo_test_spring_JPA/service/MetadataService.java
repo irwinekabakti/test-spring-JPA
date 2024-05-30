@@ -1,7 +1,9 @@
-package com.example.demo_test_spring_JPA.Metadata;
+package com.example.demo_test_spring_JPA.service;
 
 import java.util.Optional;
 
+import com.example.demo_test_spring_JPA.model.Metadata;
+import com.example.demo_test_spring_JPA.repository.MetadataRepository;
 import org.springframework.stereotype.Service;
 
 @Service

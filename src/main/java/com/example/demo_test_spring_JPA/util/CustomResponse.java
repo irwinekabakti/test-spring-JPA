@@ -1,4 +1,4 @@
-package com.example.demo_test_spring_JPA;
+package com.example.demo_test_spring_JPA.util;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;

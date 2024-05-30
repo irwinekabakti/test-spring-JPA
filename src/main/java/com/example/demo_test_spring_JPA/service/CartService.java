@@ -1,7 +1,9 @@
-package com.example.demo_test_spring_JPA.Cart;
+package com.example.demo_test_spring_JPA.service;
 
 import java.util.Optional;
 
+import com.example.demo_test_spring_JPA.model.Cart;
+import com.example.demo_test_spring_JPA.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
 @Service
