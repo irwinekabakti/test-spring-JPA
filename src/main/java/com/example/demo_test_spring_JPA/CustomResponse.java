@@ -19,14 +19,15 @@ public class CustomResponse<K> {
         this.data = data;
     }
 
-    public static <K> CustomResponse<K> success(K data, String message) {
-        return new CustomResponse<>(HttpStatus.OK, "Success", message, data);
+    // Constructors for error responses
+    public CustomResponse(HttpStatus status, String message) {
+        this.status = status.value();
+        this.statusMessage = status.getReasonPhrase();
+        this.message = message;
+        this.data = null;
     }
 
-    public static <K> CustomResponse<K> error(HttpStatus status, String message) {
-        return new CustomResponse<>(status, "Error", message, null);
-    }
-
+    // Method to convert CustomResponse to ResponseEntity
     public ResponseEntity<CustomResponse<K>> toResponseEntity() {
         return ResponseEntity.status(HttpStatus.valueOf(status)).body(this);
     }

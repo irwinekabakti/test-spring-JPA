@@ -25,14 +25,14 @@ public class FavoriteProductsController {
         if (favoritesOpt.isPresent()) {
             Iterable<FavoriteProducts> favorites = favoritesOpt.get();
             if (favorites.iterator().hasNext()) {
-                CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.success(favorites, "User favorite products retrieved successfully.");
+                CustomResponse<Iterable<FavoriteProducts>> response = new CustomResponse<>(HttpStatus.OK,"Success", "User favorite products retrieved successfully.", favorites);
                 return response.toResponseEntity();
             } else {
-                CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User doesn't have favorite products.");
+                CustomResponse<Iterable<FavoriteProducts>> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "User doesn't have favorite products.");
                 return response.toResponseEntity();
             }
         } else {
-            CustomResponse<Iterable<FavoriteProducts>> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User not found.");
+            CustomResponse<Iterable<FavoriteProducts>> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "User not found.");
             return response.toResponseEntity();
         }
     }
@@ -42,19 +42,19 @@ public class FavoriteProductsController {
         Optional<FavoriteProducts> favoriteOpt = favoriteService.changeFavorite(favorite);
         if (favoriteOpt.isPresent()) {
             FavoriteProducts result = favoriteOpt.get();
-            String message = !(favorite.getId() == null) ? "Added to favorite products." : "Removed from favorite products.";
-            CustomResponse<FavoriteProducts> response = CustomResponse.success(result, message);
+            String DynamicMessage = !(favorite.getId() == null) ? "Added to favorite products." : "Removed from favorite products.";
+            CustomResponse<FavoriteProducts> response = new CustomResponse<>(HttpStatus.OK,"Suceess", DynamicMessage, result);
             return response.toResponseEntity();
         } else {
             if (!favoriteService.checkProduct(favorite.getProductId())) {
-                CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Product not found.");
+                CustomResponse<FavoriteProducts> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "Product not found.");
                 return response.toResponseEntity();
             }
             if (!favoriteService.checkUser(favorite.getUserId())) {
-                CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.NOT_FOUND, "User not found.");
+                CustomResponse<FavoriteProducts> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "User not found.");
                 return response.toResponseEntity();
             }
-            CustomResponse<FavoriteProducts> response = CustomResponse.error(HttpStatus.BAD_REQUEST, "Invalid request.");
+            CustomResponse<FavoriteProducts> response = new CustomResponse<>(HttpStatus.BAD_REQUEST, "Invalid request.");
             return response.toResponseEntity();
         }
     }

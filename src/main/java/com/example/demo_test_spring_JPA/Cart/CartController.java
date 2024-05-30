@@ -16,14 +16,14 @@ public class CartController {
     @GetMapping
     public ResponseEntity<CustomResponse<Iterable<Cart>>> getCart() {
         Iterable<Cart> cart = cartService.getCart();
-        CustomResponse<Iterable<Cart>> response = CustomResponse.success(cart, "Cart retrieved successfully!");
+        CustomResponse<Iterable<Cart>> response = new CustomResponse<>(HttpStatus.OK, "Success", "Cart retrieved successfully!", cart);
         return response.toResponseEntity();
     }
 
     @PostMapping
     public ResponseEntity<CustomResponse<Cart>> addItemToCart(@RequestBody Cart cart) {
         Cart newCart = cartService.addCart(cart);
-        CustomResponse<Cart> response = CustomResponse.success(newCart, "Item added to cart successfully!");
+        CustomResponse<Cart> response = new CustomResponse<>(HttpStatus.OK,"Success", "Item added to cart successfully!", newCart);
         return response.toResponseEntity();
     }
 
@@ -31,10 +31,10 @@ public class CartController {
     public ResponseEntity<CustomResponse<Cart>> removeItem(@PathVariable Integer id) {
         Cart deletedCart = cartService.deleteCart(id);
         if (deletedCart != null) {
-            CustomResponse<Cart> response = CustomResponse.success(deletedCart, "Item removed from cart successfully!");
+            CustomResponse<Cart> response = new CustomResponse<>(HttpStatus.OK, "Success","Item removed from cart successfully!", deletedCart);
             return response.toResponseEntity();
         } else {
-            CustomResponse<Cart> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Item not found in cart");
+            CustomResponse<Cart> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "Item not found in cart");
             return response.toResponseEntity();
         }
     }
@@ -43,10 +43,10 @@ public class CartController {
     public ResponseEntity<CustomResponse<Cart>> updateCart(@PathVariable Integer id, @RequestBody Cart cart) {
         Cart updatedCart = cartService.updateCart(id, cart);
         if (updatedCart != null) {
-            CustomResponse<Cart> response = CustomResponse.success(updatedCart, "Cart updated successfully!");
+            CustomResponse<Cart> response = new CustomResponse<>(HttpStatus.OK,"Success", "Cart updated successfully!", updatedCart);
             return response.toResponseEntity();
         } else {
-            CustomResponse<Cart> response = CustomResponse.error(HttpStatus.NOT_FOUND, "Item not found in cart");
+            CustomResponse<Cart> response = new CustomResponse<>(HttpStatus.NOT_FOUND, "Item not found in cart");
             return response.toResponseEntity();
         }
     }
